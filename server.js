@@ -13,11 +13,11 @@ app.set('views', 'public');
 app.set('view engine', 'pug');
 
 app.get('/', (req, res) => {
-    let existingData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'public', 'qotd.json'), {encoding: 'utf8'}));
-    res.render('index', {quotes: existingData});
+    res.render('index');
 });
 
 app.get('/quoteEvent', setQuoteEvent);
+
 app.listen(process.env.PORT || 4000, () => {
     console.log('Server is runnning in port: ', process.env.PORT);
     keepAwake();

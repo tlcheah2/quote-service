@@ -19,3 +19,11 @@ script.
         // Apeend <li> to <ul>                      
         document.getElementById("quoteList").appendChild(node); 
     });
+    // When connection is closed, we have to stop subscribing to the event to avoid memory leak
+    eventSource.addEventListener("closedConnection", function (ev) {
+        eventSource.close();
+    });
+    // Stop subscribing to backend server when browser is close
+    window.addEventListener("beforeunload", function (event) {
+        eventSource.close();
+    });

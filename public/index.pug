@@ -23,7 +23,3 @@ script.
     eventSource.addEventListener("closedConnection", function (ev) {
         eventSource.close();
     });
-    // Stop subscribing to backend server when browser is close
-    window.addEventListener("beforeunload", function (event) {
-        eventSource.close();
-    });

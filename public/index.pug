@@ -1,6 +1,25 @@
 h1 Quote of The Day
 h3 List of Quotes that we crawled
-p Refresh every minute and you will saw a new quote
-ul
-    - for (var x = 0; x < quotes.length; x++)
-        li #{quotes[x]}
+p You will be able to see a new quote display in the list below per minute without refreshing the browser.
+ul#quoteList
+
+script.
+    let quotes = [];
+    var eventSource = new EventSource('quoteEvent');
+    // Listen to New Quote Event
+    eventSource.addEventListener('newQuote', function (e) {
+        const data = JSON.parse(e.data);
+        console.log('data', data);
+        // Create a <li> node
+        var node = document.createElement("LI");
+        // Create a text node                 
+        var textnode = document.createTextNode(data.quote);
+        // Append the text to <li>         
+        node.appendChild(textnode);      
+        // Apeend <li> to <ul>                      
+        document.getElementById("quoteList").appendChild(node); 
+    });
+    // When connection is closed, we have to stop subscribing to the event to avoid memory leak
+    eventSource.addEventListener("closedConnection", function (ev) {
+        eventSource.close();
+    });
